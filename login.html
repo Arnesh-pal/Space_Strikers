@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nasa</title>
+    <style>
+        body {
+            background-image: url('https://starwalk.space/gallery/images/what-is-space/1920x1080.jpg');
+            background-size: cover; /* Ensure the image covers the entire background */
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+            background-attachment: fixed; /* Keep the background fixed when scrolling */
+            background-color: #000; /* Fallback background color */
+            color: #fff;
+            font-family: Poppins, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Add styles for the navigation bar */
+        nav {
+            background-color: rgba(34, 34, 34, 0.7);
+            width: 100%;
+            padding: 10px 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: flex-end; /* Align links to the right */
+        }
+
+        nav li {
+            margin: 0 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .center-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 60px auto 20px auto; /* Increased top margin to move the image even lower */
+            display: block;
+        }
+
+        .login-box {
+            background-color: rgba(0, 0, 0, 0.49);
+            padding: 60px; /* Increased padding for a larger box */
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 2px rgba(255, 255, 255, 0.2);
+            height: auto; /* Let the content determine the height */
+        }
+        
+        
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin: 10px 0;
+            text-align: left;
+            display: flex; /* Use flexbox to align label and checkbox in the same line */
+            align-items: center; /* Center items vertically */
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            margin-right: 10px; /* Add some spacing between label and checkbox */
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            font-size: 16px;
+            font-family: Poppins, Arial, sans-serif; /* Use Poppins for input fields */
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center; /* Center the checkbox and label vertically */
+        }
+
+        .login-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #7807f0;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none; /* Remove underlines from the link */
+            font-size: 18px;
+            font-family: Poppins, Arial, sans-serif;
+            transition: background-color 0.3s ease;
+        }
+        
+        .login-button:hover {
+            background-color: #0056b3;
+        }
+        
+
+
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" id="Home-link">Home</a></li>
+            <li><a href="login.html" id="Login-link">Login</a></li>
+            <li><a href="team.html" id="Team-link">Team</a></li>
+            <li><a href="project.html" id="project-link">Project</a></li>
+            <li><a href="comic.html" id="Comic-link">Comic</a></li>
+            <li><a href="visualise.html">Visualise</a></li>
+            <li><a href="businessmodel.html" id="bsmodel-link">Business Model</a></li>
+            <li><a href="video.html" id="Video-link">Video</a></li>
+        </ul>
+    </nav>
+    <div class="container"  style="margin-top: 100px;">
+        <img src="img.png" alt="Space Image" class="center-image">
+        <div class="login-box">
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="input-group remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Remember Me</label> <!-- Moved the label below the checkbox -->
+                </div>
+                <a href="your-login-page.html" class="login-button">Login</a>
+                <p><a href="forgot-password.html">Forgot Password?</a></p>
+                <p>or</p>
+                <p><a href="create-account.html">Create a new account</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to load page content dynamically
+        function loadPage(page) {
+            const container = document.querySelector('.container');
+            fetch(page)
+                .then(response => response.text())
+                .then(data => {
+                    container.innerHTML = data;
+                    history.pushState({}, '', page);
+                })
+                .catch(error => console.error(error));
+        }
+
+        // Handle clicks on "About" and "Project" links
+        const TeamLink = document.getElementById('team-link');
+        const projectLink = document.getElementById('project-link');
+
+        TeamLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            loadPage('team.html');
+        });
+
+        projectLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            loadPage('project.html');
+        });
+
+        // Handle the back button to navigate back to nasaone.html
+        window.addEventListener('popstate', function (event) {
+            loadPage(location.pathname);
+        });
+
+        // Initial page load
+        loadPage('nasaone.html');
+    </script>
+</body>
+</html>

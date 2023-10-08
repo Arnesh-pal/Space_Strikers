@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <style>
+        /* Your existing CSS styles here */
+        body {
+            background-image: url("background.jpg" );
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Container styles */
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Chat window styles */
+        .col-6 {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            background-color: #fff;
+        }
+
+        /* Message input styles */
+        .form-control {
+            margin-top: 10px;
+        }
+
+        /* Message button styles */
+        .btn-primary {
+            margin-top: 10px;
+        }
+
+        /* Navigation bar styles */
+        nav {
+            background-color: rgba(34, 34, 34, 0.7);
+            width: 100%;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        nav li {
+            margin: 0 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav>
+        <ul>
+            <li><a href="index.html" id="Home-link">Home</a></li>
+            <li><a href="login.html" id="Login-link">Login</a></li>
+            <li><a href="team.html" id="Team-link">Team</a></li>
+            <li><a href="project.html" id="project-link">Project</a></li>
+            <li><a href="comic.html" id="Comic-link">Comic</a></li>
+            <li><a href="visualise.html">Visualise</a></li>
+            <li><a href="businessmodel.html" id="bsmodel-link">Business Model</a></li>
+            <li><a href="video.html" id="Video-link">Video</a></li>
+        </ul>
+    </nav>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-6">
+                <h3>User 1</h3>
+                <div id="user1-chat"></div>
+                <input type="text" id="user1-message" class="form-control" placeholder="Type a message...">
+                <button onclick="sendMessage('user1')" class="btn btn-primary mt-2">Send</button>
+            </div>
+            <div class="col-6">
+                <h3>User 2</h3>
+                <div id="user2-chat"></div>
+                <input type="text" id="user2-message" class="form-control" placeholder="Type a message...">
+                <button onclick="sendMessage('user2')" class="btn btn-primary mt-2">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Your existing content here -->
+    <div id="root"></div>
+    <script>
+        // Your existing JavaScript code here
+        function sendMessage(user) {
+            const messageInput = document.getElementById(`${user}-message`);
+            const chatDiv = document.getElementById(`${user}-chat`);
+            const message = messageInput.value;
+            if (message.trim() === "") return;
+
+            chatDiv.innerHTML += `<p><strong>${user}:</strong> ${message}</p>`;
+            messageInput.value = "";
+
+            // Store the message in local storage for the other user to retrieve
+            const otherUser = user === "user1" ? "user2" : "user1";
+            const messages = JSON.parse(localStorage.getItem(otherUser)) || [];
+            messages.push({ user, message });
+            localStorage.setItem(otherUser, JSON.stringify(messages));
+            
+            // Post the message to the other window
+            const otherWindow = user === "user1" ? window.opener : window;
+            otherWindow.postMessage(JSON.stringify({ user, message }), "*");
+        }
+
+        // Receive and display messages from the other window
+        window.addEventListener("message", (event) => {
+            try {
+                const messageData = JSON.parse(event.data);
+                if (messageData.user && messageData.message) {
+                    const user = messageData.user;
+                    const chatDiv = document.getElementById(`${user}-chat`);
+                    chatDiv.innerHTML += `<p><strong>${user}:</strong> ${messageData.message}</p>`;
+                }
+            } catch (error) {
+                console.error("Error parsing message:", error);
+            }
+        });
+
+        // Retrieve and display messages from local storage when the page loads
+        window.addEventListener("load", () => {
+            displayMessages("user1");
+            displayMessages("user2");
+        });
+
+        function displayMessages(user) {
+            const chatDiv = document.getElementById(`${user}-chat`);
+            const messages = JSON.parse(localStorage.getItem(user)) || [];
+            messages.forEach((msg) => {
+                chatDiv.innerHTML += `<p><strong>${msg.user}:</strong> ${msg.message}</p>`;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Science Storytelling</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://starwalk.space/gallery/images/what-is-space/1920x1080.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Add styles for the navigation bar */
+        nav {
+            background-color: rgba(34, 34, 34, 0.7);
+            width: 100%;
+            padding: 10px 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: flex-end; /* Align links to the right */
+        }
+
+        nav li {
+            margin: 0 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+        }
+
+
+        header {
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            border: none;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .video-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .video {
+            width: 100%;
+            display: block;
+        }
+
+        .top-bar {
+            background-color: rgba(34, 34, 34, 0.7);
+            width: 100%;
+            padding: 10px 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .top-bar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .top-bar li {
+            margin: 0 20px;
+        }
+
+        .top-bar a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        /* Add styles for the images container */
+        .bottom-images {
+            width: 70%;
+            max-width: 800px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: space-between; /* Display images side by side */
+            align-items: center; /* Vertically center images */
+        }
+
+        .bottom-images img {
+            width: 48%; /* Adjust the width to control the size of images */
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" id="Home-link">Home</a></li>
+            <li><a href="login.html" id="Login-link">Login</a></li>
+            <li><a href="team.html" id="Team-link">Team</a></li>
+            <li><a href="project.html" id="project-link">Project</a></li>
+            <li><a href="comic.html" id="Comic-link">Comic</a></li>
+            <li><a href="visualise.html">Visualise</a></li>
+            <li><a href="businessmodel.html" id="bsmodel-link">Business Model</a></li>
+            <li><a href="video.html" id="Video-link">Video</a></li>
+        </ul>
+    </nav>
+
+    <header style="margin-top: 100px;">
+        <h1>Open Science Storytelling</h1>
+        <p>Exciting Space Stories, Making Space Simple, Space Lovers' Club</p>
+    </header>
+
+    <div class="video-container">
+        <div class="video-wrapper">
+            <video class="video" src="video.mp4" controls></video>
+        </div>
+    </div>
+
+    <!-- Add the images at the bottom -->
+    <div class="bottom-images">
+        <!-- Add the first picture -->
+        <img src="posterone.png" alt="Poster One" />
+
+        <!-- Add the second picture -->
+        <img src="postertwo.png" alt="Poster Two" />
+    </div>
+
+    <script>
+        // Function to load page content dynamically
+        function loadPage(page) {
+            const container = document.querySelector('.container');
+            fetch(page)
+                .then(response => response.text())
+                .then(data => {
+                    container.innerHTML = data;
+                    history.pushState({}, '', page);
+                })
+                .catch(error => console.error(error));
+        }
+
+        // Handle clicks on "About" and "Project" links
+        const TeamLink = document.getElementById('team-link');
+        const projectLink = document.getElementById('project-link');
+
+        TeamLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            loadPage('team.html');
+        });
+
+        projectLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            loadPage('project.html');
+        });
+
+        // Handle the back button to navigate back to nasaone.html
+        window.addEventListener('popstate', function (event) {
+            loadPage(location.pathname);
+        });
+
+        // Initial page load
+        loadPage('nasaone.html');
+    </script>
+</body>
+</html>
